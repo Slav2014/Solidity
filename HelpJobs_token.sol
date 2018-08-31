@@ -1,12 +1,12 @@
 pragma solidity ^0.4.18;
 
 // ----------------------------------------------------------------------------
-// 'SVET' token contract
+// 'HELP' token contract
 //
 // Deployed to : 0x9cf6bbb0b59cb5b297842278dEd836d8D243C759
-// Symbol      : SVET
-// Name        : Silicon Valley Enlistment Token
-// Total supply: 120000
+// Symbol      : HELP
+// Name        : Help Jobs Token
+// Total supply: 100000
 // Decimals    : 18
 //
 // 
@@ -99,7 +99,7 @@ contract Owned {
 // ERC20 Token, with the addition of symbol, name and decimals and assisted
 // token transfers
 // ----------------------------------------------------------------------------
-contract SVET is ERC20Interface, Owned, SafeMath {
+contract HELP is ERC20Interface, Owned, SafeMath {
     string public symbol;
     string public  name;
     uint8 public decimals;
@@ -112,11 +112,11 @@ contract SVET is ERC20Interface, Owned, SafeMath {
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
-    function SVET() public {
-        symbol = "SVET";
-        name = "Silicon Valley Enlistment Token";
+    function HELP() public {
+        symbol = "HELP";
+        name = "Help Jobs Token";
         decimals = 18;
-        _totalSupply = 120000000000000000000000;
+        _totalSupply = 100000000000000000000000;
         balances[0x9cf6bbb0b59cb5b297842278dEd836d8D243C759] = _totalSupply;
         Transfer(address(0), 0x9cf6bbb0b59cb5b297842278dEd836d8D243C759, _totalSupply);
     }
