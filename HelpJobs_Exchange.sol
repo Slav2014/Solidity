@@ -39,9 +39,9 @@ contract Main {
         Delegate = _orig;
     }
     
-    function setHoboInfo(string _name, uint _age) public
+    function setHoboInfo(uint _ID) public
     {
-        Delegate.delegatecall(bytes4(keccak256("setHoboInfo(string,uint256)")), _name, _age);
+        Delegate.delegatecall(bytes4(keccak256("setHoboInfo(uint256)")), _ID);
         
     }
     
@@ -63,14 +63,14 @@ contract proxyHobo {
     
     //PatientInfo[] patients;
     
-    function setHoboInfo(uint _ID) public
+    function setHoboInfo(uint _ID) public returns(address)
     {
         // needs to check if the patients info has already been stored
         HoboCoin newInstance = new HoboCoin(msg.sender, _ID);
         newCoins.push(newInstance);
         Hobos[msg.sender].profile = newInstance;
-        
-        Hobos[msg.sender] = HoboInfo(_ID, );
+        Hobos[msg.sender] = HoboInfo(_ID, newInstance);
+        return newInstance;
     }
 }
 
