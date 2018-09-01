@@ -31,46 +31,25 @@ contract Main {
     
     mapping(address => HoboInfo) Hobos;
     
-    address public Delegate;
-    
-    constructor (address _orig) public
+    constructor () public
     {
         owner = msg.sender;
-        Delegate = _orig;
     }
     
-    function setHoboInfo(uint _ID) public
+    function setHoboInfo(uint _ID) public returns(string, address)
     {
-        Delegate.delegatecall(bytes4(keccak256("setHoboInfo(uint256)")), _ID);
+        //Delegate.delegatecall(bytes4(keccak256("setHoboInfo(uint256)")), _ID);
+        HoboCoin newInstance = new HoboCoin(msg.sender, _ID);
+        newCoins.push(newInstance);
+        //Hobos[msg.sender].profile = newInstance;
+        Hobos[msg.sender] = HoboInfo(_ID, newInstance);
+        return ("Your contract address is: ", newInstance);
         
     }
     
     function getHoboContract(address _address) public view returns (address)
     {
         return (Hobos[_address].profile);
-    }
-}
-
-contract proxyHobo {
-    HoboCoin[] newCoins;
-    struct HoboInfo 
-    {
-        uint hoboID;
-        address profile;
-    }
-    
-    mapping(address => HoboInfo) Hobos;
-    
-    //PatientInfo[] patients;
-    
-    function setHoboInfo(uint _ID) public returns(string, address)
-    {
-        // needs to check if the patients info has already been stored
-        HoboCoin newInstance = new HoboCoin(msg.sender, _ID);
-        newCoins.push(newInstance);
-        //Hobos[msg.sender].profile = newInstance;
-        Hobos[msg.sender] = HoboInfo(_ID, newInstance);
-        return ("Your contract address is: ", newInstance);
     }
 }
 
@@ -117,3 +96,26 @@ contract HoboCoin {
         msg.sender.transfer(address(this).balance);
     }
 }
+
+// contract proxyHobo {
+//     HoboCoin[] newCoins;
+//     struct HoboInfo 
+//     {
+//         uint hoboID;
+//         address profile;
+//     }
+    
+//     mapping(address => HoboInfo) Hobos;
+    
+//     //PatientInfo[] patients;
+    
+//     function setHoboInfo(uint _ID) public returns(string, address)
+//     {
+//         // needs to check if the patients info has already been stored
+//         HoboCoin newInstance = new HoboCoin(msg.sender, _ID);
+//         newCoins.push(newInstance);
+//         //Hobos[msg.sender].profile = newInstance;
+//         Hobos[msg.sender] = HoboInfo(_ID, newInstance);
+//         return ("Your contract address is: ", newInstance);
+//     }
+// }
