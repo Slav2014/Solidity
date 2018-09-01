@@ -26,12 +26,10 @@ contract Main {
     struct HoboInfo 
     {
         uint hoboID;
-        uint age;
         address profile;
     }
     
     mapping(address => HoboInfo) Hobos;
-    mapping(string => address) hoboContracts;
     
     address public Delegate;
     
@@ -44,20 +42,20 @@ contract Main {
     function setHoboInfo(string _name, uint _age) public
     {
         Delegate.delegatecall(bytes4(keccak256("setHoboInfo(string,uint256)")), _name, _age);
-        HoboCoin newInstance = new HoboCoin(msg.sender, _name);
+        
     }
     
-    function getPatientInfo() public view returns (string, uint, address)
+    function getHoboContract(address _address) public view returns (address)
     {
-        return (Hobos[msg.sender].name, Hobos[msg.sender].age, Hobos[msg.sender].profile);
+        return (Hobos[_address].profile);
     }
 }
 
 contract proxyHobo {
+    HoboCoin[] newCoins;
     struct HoboInfo 
     {
-        string name;
-        uint age;
+        uint hoboID;
         address profile;
     }
     
@@ -65,24 +63,28 @@ contract proxyHobo {
     
     //PatientInfo[] patients;
     
-    function setHoboInfo(string _name, uint _age, address _contract) public
+    function setHoboInfo(uint _ID) public
     {
         // needs to check if the patients info has already been stored
-        Hobos[msg.sender] = HoboInfo(_name, _age, _contract);
+        HoboCoin newInstance = new HoboCoin(msg.sender, _ID);
+        newCoins.push(newInstance);
+        Hobos[msg.sender].profile = newInstance;
+        
+        Hobos[msg.sender] = HoboInfo(_ID, );
     }
 }
 
-contract HoboCoin is Main {
+contract HoboCoin {
     
     address public owner;
     uint public total = 100000;
-    string public name;
+    uint public tokenID;
     mapping (address => uint) public token;
     
-    constructor (address _hobo, string _name) public 
+    constructor (address _hobo, uint _ID) public 
     {
         owner = _hobo;
-        _name = name;
+        _ID = tokenID;
         token[owner] = total;
     }
     
@@ -114,5 +116,4 @@ contract HoboCoin is Main {
     {
         msg.sender.transfer(address(this).balance);
     }
-
 }
