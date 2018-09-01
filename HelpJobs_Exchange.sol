@@ -1,5 +1,7 @@
 pragma solidity ^0.4.24;
 
+// mint coins for all Hobos and transfer them to the new owners (investors)
+
 contract SafeMath { // safeguard a way variables are added, extracted, multiplied and divided
     function safeAdd(uint a, uint b) public pure returns (uint c) { // add
         c = a + b;
@@ -63,14 +65,14 @@ contract proxyHobo {
     
     //PatientInfo[] patients;
     
-    function setHoboInfo(uint _ID) public returns(address)
+    function setHoboInfo(uint _ID) public returns(string, address)
     {
         // needs to check if the patients info has already been stored
         HoboCoin newInstance = new HoboCoin(msg.sender, _ID);
         newCoins.push(newInstance);
         Hobos[msg.sender].profile = newInstance;
         Hobos[msg.sender] = HoboInfo(_ID, newInstance);
-        return newInstance;
+        return ("Your contract address is: ", newInstance;
     }
 }
 
@@ -85,7 +87,7 @@ contract HoboCoin {
     {
         owner = _hobo;
         _ID = tokenID;
-        token[owner] = total;
+        token[owner] = total; // minting tokens
     }
     
     modifier isOwner {
