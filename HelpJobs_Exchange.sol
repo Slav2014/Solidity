@@ -1,5 +1,7 @@
 pragma solidity ^0.4.24;
 
+// mint coins for all Hobos and transfer them to the new owners (investors)
+
 contract SafeMath { // safeguard a way variables are added, extracted, multiplied and divided
     function safeAdd(uint a, uint b) public pure returns (uint c) { // add
         c = a + b;
@@ -39,7 +41,7 @@ contract Main {
         Delegate = _orig;
     }
     
-    function setHoboInfo(string _name, uint _age) public
+    function setHoboInfo(string _name, uint _age) public // setting info about Hobos
     {
         Delegate.delegatecall(bytes4(keccak256("setHoboInfo(string,uint256)")), _name, _age);
         
@@ -85,7 +87,7 @@ contract HoboCoin {
     {
         owner = _hobo;
         _ID = tokenID;
-        token[owner] = total;
+        token[owner] = total; // minting tokens
     }
     
     modifier isOwner {
