@@ -18,7 +18,7 @@ pragma solidity ^0.4.18;
 // ----------------------------------------------------------------------------
 // Safe maths
 // ----------------------------------------------------------------------------
-contract SafeMath { // just defines a way variables are added, extracted, multiply and divide
+contract SafeMath { // safeguard a way variables are added, extracted, multiplied and divided
     function safeAdd(uint a, uint b) public pure returns (uint c) { // add
         c = a + b;
         require(c >= a);
@@ -42,13 +42,13 @@ contract SafeMath { // just defines a way variables are added, extracted, multip
 // ERC Token Standard #20 Interface
 // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md
 // ----------------------------------------------------------------------------
-contract ERC20Interface { // ??? 
-    function totalSupply() public constant returns (uint); // defined total supply of tokens as a function ??
-    function balanceOf(address tokenOwner) public constant returns (uint balance); // defined benefeciary ? balance as function 
-    function allowance(address tokenOwner, address spender) public constant returns (uint remaining);
-    function transfer(address to, uint tokens) public returns (bool success);
-    function approve(address spender, uint tokens) public returns (bool success);
-    function transferFrom(address from, address to, uint tokens) public returns (bool success);
+contract ERC20Interface { //  standard interface for ERC20 tokens
+    function totalSupply() public constant returns (uint); // returns total supply
+    function balanceOf(address tokenOwner) public constant returns (uint balance); // returns balance of token Owner  
+    function allowance(address tokenOwner, address spender) public constant returns (uint remaining); // returns remaining number of tokens on an owner address
+    function transfer(address to, uint tokens) public returns (bool success); // transfer tokens to a new address
+    function approve(address spender, uint tokens) public returns (bool success); // function to approve spemding 
+    function transferFrom(address from, address to, uint tokens) public returns (bool success); 
 
     event Transfer(address indexed from, address indexed to, uint tokens);
     event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
