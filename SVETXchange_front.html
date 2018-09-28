@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>SVETXchange front-end</title>
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="web3.min.js"></script>
+	<script language="javascript" type="text/javascript" src="SVETXchange_abi.js"></script>
+  </head>
+  <body>
+  	<h1>SVETXchange Front</h1>
+  
+  	<script type="text/javascript">
+  		var SVETXchange;
+  		var SVETXchangeABI; // has to contain a compiled version of SVETXchange_abi.js
+  		var NewContractAddress;
+
+  		function startApp() {
+  			// stores my contract address in Ethereum mainnet
+  			var SVETXchangeAddress = "MY_CONTRACT_ADDRESS"; 
+  			// instantiate my contract
+  			var myContract = new web3js.eth.Contract(SVETXchangeABI, SVETXchangeAddress);
+  			// getting user account in Metamask
+  			var userAccount = web3.eth.accounts[0];
+  		}
+
+  		// calling a contract to receive a new contract address
+  		function ReceiveNewContractAddress (string_symbol, string_name, uint_totalSupply, address_creator) {
+  			return myContract.methods.createToken(string_symbol, string_name, uint_totalSupply, address_creator).send();
+  		}
+
+  		// printing a new contract address to the screen
+  		function PrintNewContractAddress (new_address){
+  			    document.write("hello USER it's your new address: ");
+  			    document.write(new_address);
+  		}
+
+  		// adding Infura as my web3 provider
+  		var web3 = new Web3(new Web3.providers.WebsocketProvider("wss://mainnet.infura.io/ws"));
+  		document.write("hello SVET");
+
+  		// detecting Metamask:
+  		window.addEventListener('load', function() {
+
+  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  if (typeof web3 !== 'undefined') {
+    // Use Mist/MetaMask's provider
+    web3js = new Web3(web3.currentProvider);
+    document.write("hello SVET it's web3 talking to you and you added it by injecting Infura into your code.");
+  } else {
+  	document.write("hello SVET again but it looks like you don't have web3 working properly");
+    // Handle the case where the user doesn't have web3. Probably 
+    // show them a message telling them to install Metamask in 
+    // order to use our app.
+  }
+
+  // Now you can start your app & access web3js freely:
+  startApp(); // initialize parameters
+  NewContractAddress = ReceiveNewContractAddress ("SVET", "new coin created using the front end app", 1000, userAccount); // call a contract function to return a new contract address 
+  PrintNewContractAddress(NewContractAddress); // print this new address to the web-page
+
+})
+
+  	</script>
+
+
+  </body>
+</html>
+
